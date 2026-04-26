@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLT Splash Cam | AR Scanner</title>
+    <!-- A-Frame and MindAR for Image Tracking -->
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+    <div id="ui-container">
+        <div id="scanning-overlay" class="overlay">
+            <div class="scanner-frame">
+                <div class="scanner-line"></div>
+            </div>
+            <p>Scan the <span>BOLT.JPG</span> Digital Twin</p>
+        </div>
+        
+        <div id="info-card" class="glass-card">
+            <h1>BOLT EVM</h1>
+            <p>Physical Digital Twin Detected</p>
+        </div>
+
+        <a href="https://boltevm.com" target="_blank" id="footer-link">boltevm.com</a>
+    </div>
+
+    <!-- 
+        Normally we'd use a .mind file generated from the JPG. 
+        Since I cannot run the compiler locally, I'll provide instructions or link to a hosted version.
+        For now, let's assume the target image is handled by the MindAR image tracking component.
+    -->
+    <a-scene 
+        mindar-image="imageTargetSrc: ./assets/targets.mind; filterMinCF:0.001; filterBeta: 0.01; uiScanning: #scanning-overlay;" 
+        color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights" 
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false">
+        
+        <a-assets>
+            <video id="boltVideo" src="./assets/finalbossfinal.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
+        </a-assets>
+
+        <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 10000; objects: .clickable"></a-camera>
+
+        <a-entity mindar-image-target="targetIndex: 0">
+            <a-video 
+                id="video-screen"
+                src="#boltVideo" 
+                width="1" 
+                height="1" 
+                position="0 0 0" 
+                rotation="0 0 0"
+                class="clickable"
+                link-handler="url: https://boltevm.com"
+            ></a-video>
+            
+            <a-plane 
+                position="0 -0.6 0" 
+                width="0.8" 
+                height="0.2" 
+                material="src: #boltVideo; opacity: 0.5; transparent: true"
+                class="clickable"
+                link-handler="url: https://boltevm.com"
+            ></a-plane>
+        </a-entity>
+    </a-scene>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
