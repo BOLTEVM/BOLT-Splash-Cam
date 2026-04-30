@@ -103,6 +103,7 @@ body {
   font-size: 1.5rem;
   background: linear-gradient(90deg, var(--neon-orange), var(--neon-blue));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 3px;
 }
